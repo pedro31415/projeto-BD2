@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: linear-gradient(to right, rgb(20, 147, 220), rgb(17, 54, 71));
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto 20px;
+            background-color: dodgerblue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(0, 80, 172);
+        }
+
+        #studentList {
+            list-style-type: none; 
+            padding: 0; 
+            border: 1px solid white; 
+            border-radius: 5px;
+            width: 80%; 
+            margin: 0 auto; 
+        }
+
+        #studentList li {
+            display: flex; 
+            justify-content: space-between; 
+            padding: 10px; 
+            border-bottom: 1px solid white; 
+        }
+
+        #studentList li:last-child {
+            border-bottom: none; 
+        }
+
+        .student-name {
+            flex: 1; 
+        }
+
+        .student-email {
+            flex: 1; 
+            text-align: right;
+        }
+
+        .navigation {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: white;
+            background-color: dodgerblue;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .navigation a:hover {
+            background-color: rgb(0, 80, 172);
+        }
+    </style>
+</head>
+<body>
+    <h1>Alunos Cadastrados</h1>
+    <button onclick="loadStudents()">Lista dos estudantes</button>
+    <ul id="studentList"></ul>
+
+    <div class="navigation">
+        <h3>Menu</h3>
+        <a href="/index.html">Cadastrar Aluno</a>
+        <a href="/listagem.html">Listar Alunos</a>
+        <a href="/atualizarAluno.html">Atualizar Aluno</a>
+        <a href="/deletarAluno.html">Deletar Aluno</a>
+    </div>
+
+    <script>
+        async function loadStudents() {
+            try {
+                const response = await fetch('http://localhost:3000/students');
+                const students = await response.json();
+                const studentList = document.getElementById('studentList');
+                studentList.innerHTML = '';
+
+                students.forEach(student => {
+                    const li = document.createElement('li');
+                    li.textContent = `${student.nome} - ${student.email}`
+                    studentList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar a lista de alunos: ', error);
+            }
+        }
+    </script>
+</body>
+</html>

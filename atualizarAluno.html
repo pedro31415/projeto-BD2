@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualização de Aluno</title>
+
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: linear-gradient(to right, rgb(20, 147, 220), rgb(17, 54, 71));
+            color: white;
+            margin: 0;
+            padding: 0; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: dodgerblue;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: rgb(0, 80, 172);
+        }
+
+        .navigation {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: white;
+            background-color: dodgerblue;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .navigation a:hover {
+            background-color: rgb(0, 80, 172);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Atualização de Aluno</h2>
+        <form id="UpdateForm">
+            <input type="text" id="id" placeholder="Id do Aluno" required>
+            <input type="text" id="nome" placeholder="Nome" required>
+            <div>
+                <p>Sexo:</p>
+                <label>
+                    <input type="radio" name="sexo" value="masculino" required> Masculino
+                </label>
+                <label>
+                    <input type="radio" name="sexo" value="feminino"> Feminino
+                </label>
+                <label>
+                    <input type="radio" name="sexo" value="outro"> Outro
+                </label>
+            </div>
+            <input type="date" id="data_nascimento" placeholder="Data de Nascimento" required>
+            <input type="text" id="cidade" placeholder="Cidade" required>
+            <input type="text" id="estado" placeholder="Estado" required>
+            <input type="text" id="endereco" placeholder="Endereço" required>
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="text" id="telefone" placeholder="Telefone" required>
+            <button type="submit">Atualizar Aluno</button>
+        </form>
+    </div>
+    <div class="navigation">
+        <h3>Menu</h3>
+        <a href="/index.html">Cadastrar Aluno</a>
+        <a href="/listagem.html">Listar Alunos</a>
+        <a href="/atualizarAluno.html">Atualizar Aluno</a>
+        <a href="/deletarAluno.html">Deletar Aluno</a>
+    </div>
+
+    <script>
+        async function updateStudent(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('id').value;
+            const nome = document.getElementById('nome').value;
+            const sexo = document.querySelector('input[name="sexo"]:checked')?.value;
+            const data_nascimento = document.getElementById('data_nascimento').value;
+            const cidade = document.getElementById('cidade').value;
+            const estado = document.getElementById('estado').value;
+            const endereco = document.getElementById('endereco').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+
+            const data = { nome, sexo, data_nascimento, cidade, estado, endereco, email, telefone };
+
+            try {
+                const response = await fetch(`http://localhost:3000/students/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                alert(result.status || 'Aluno atualizado com sucesso');
+            } catch (error) {
+                console.error('Erro ao atualizar aluno: ', error);
+                alert('Erro ao tentar atualizar o aluno.');
+            }
+        }
+
+        document.getElementById('UpdateForm').addEventListener('submit', updateStudent);
+    </script>
+</body>
+</html>
+

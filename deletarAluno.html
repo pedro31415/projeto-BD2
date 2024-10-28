@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Aluno</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            width: 400px;
+            margin: 50px auto;
+            color: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: dodgerblue;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: rgb(0, 80, 172);
+        }
+
+        .navigation {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: white;
+            background-color: dodgerblue;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .navigation a:hover {
+            background-color: rgb(0, 80, 172);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Excluir Aluno</h2>
+        <form id="deleteForm">
+            <input type="text" id="id" placeholder="ID do Aluno" required>
+            <button type="submit">Excluir Aluno</button>
+        </form>
+    </div>
+
+    <div class="navigation">
+        <h3>Menu</h3>
+        <a href="/index.html">Cadastrar Aluno</a>
+        <a href="/listagem.html">Listar Alunos</a>
+        <a href="/atualizarAluno.html">Atualizar Aluno</a>
+        <a href="/deletarAluno.html">Deletar Aluno</a>
+    </div>
+
+    <script>
+        async function deleteStudent(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('id').value;
+
+            try {
+                const response = await fetch(`http://localhost:3000/students/${id}`, {
+                    method: 'DELETE',
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.status || 'Aluno excluído com sucesso!');
+                } else {
+                    console.error('Erro ao excluir aluno: ', error);
+                    alert(result.error || 'Erro ao excluir o aluno.');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir aluno: ', error);
+                alert('Erro ao tentar excluir o aluno.');
+            }
+        }
+
+        document.getElementById('deleteForm').addEventListener('submit', deleteStudent);
+    </script>
+</body>
+</html>
