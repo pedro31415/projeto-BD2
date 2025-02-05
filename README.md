@@ -1,4 +1,4 @@
-# Documentação do Porjeto de Banco de Dados
+# Documentação do Projeto de Banco de Dados
 
 ## Dependências 
 
